@@ -1,0 +1,637 @@
+<!-- app/views/tickets/edit.html.erb -->
+
+<div class="ticket-edit-container">
+
+  <!-- Header -->
+  <div class="edit-header">
+    <h1>✏️ Editar Ticket</h1>
+    <div class="header-actions">
+      <%= link_to "← Ver Ticket", ticket_path(@ticket), class: "back-link" %>
+      <%= link_to "Lista", tickets_path, class: "list-link" %>
+    </div>
+  </div>
+
+  <!-- Información actual del ticket -->
+  <div class="current-info">
+    <h3>📋 Información Actual</h3>
+    <div class="current-ticket-card">
+      <div class="current-route">
+        <span class="from"><%= @ticket.from %></span>
+        <span class="arrow">✈️</span>
+        <span class="to"><%= @ticket.to %></span>
+      </div>
+      <div class="current-details">
+        <span class="date">📅 <%= @ticket.date %></span>
+        <span class="price">💰 $<%= @ticket.price %></span>
+        <% if @ticket.has_active_offer? %>
+          <span class="offer">⚡ -<%= @ticket.discount %>% OFF</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de edición -->
+  <%= form_with(model: @ticket, local: true, class: "edit-form") do |form| %>
+
+    <!-- Mostrar errores si existen -->
+    <% if @ticket.errors.any? %>
+      <div class="error-messages">
+        <h4>❌ Hay algunos errores que corregir:</h4>
+        <ul>
+          <% @ticket.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-sections">
+
+      <!-- Sección Ruta -->
+      <div class="form-section">
+        <h4>🛫 Ruta de Vuelo</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <%= form.label :from, "Origen", class: "form-label" %>
+            <%= form.text_field :from,
+                placeholder: "Ciudad de origen",
+                class: "form-input" %>
+            <small class="field-help">Ciudad desde donde sale el vuelo</small>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :to, "Destino", class: "form-label" %>
+            <%= form.text_field :to,
+                placeholder: "Ciudad de destino",
+                class: "form-input" %>
+            <small class="field-help">Ciudad a donde llega el vuelo</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Precio y Fecha -->
+      <div class="form-section">
+        <h4>💰 Detalles del Ticket</h4>
+        <div class="form-row">
+          <div class="form-group">
+            <%= form.label :price, "Precio", class: "form-label" %>
+            <div class="price-input-wrapper">
+              <span class="currency-symbol">$</span>
+              <%= form.number_field :price,
+                  step: 0.01,
+                  min: 0,
+                  placeholder: "0.00",
+                  class: "form-input price-input" %>
+            </div>
+            <small class="field-help">Precio en pesos mexicanos</small>
+          </div>
+
+          <div class="form-group">
+            <%= form.label :date, "Fecha del Vuelo", class: "form-label" %>
+            <%= form.date_field :date,
+                min: Date.current,
+                class: "form-input" %>
+            <small class="field-help">No puede ser una fecha pasada</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advertencia sobre ofertas activas -->
+      <% if @ticket.has_active_offer? %>
+        <div class="offer-warning">
+          <div class="warning-content">
+            <span class="warning-icon">⚠️</span>
+            <div class="warning-text">
+              <strong>Oferta Relámpago Activa</strong>
+              <p>Este ticket tiene una oferta activa de <strong><%= @ticket.discount %>%</strong> que expira en <strong><%= @ticket.tiempo_restante_oferta %></strong>. Los cambios en el precio no afectarán la oferta actual.</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+
+    <!-- Acciones del formulario -->
+    <div class="form-actions">
+      <%= form.submit "💾 Guardar Cambios", class: "btn btn-primary btn-large" %>
+      <%= link_to "Cancelar", ticket_path(@ticket), class: "btn btn-secondary" %>
+
+      <!-- Botón para eliminar (con confirmación extra) -->
+      <div class="danger-zone">
+        <%= link_to "🗑️ Eliminar Ticket", ticket_path(@ticket),
+                    method: :delete,
+                    data: {
+                      confirm: "⚠️ ¿Estás SEGURO que quieres eliminar este ticket?\n\nEsta acción NO se puede deshacer.\n\nEscribe 'ELIMINAR' para confirmar:",
+                      confirm_text: "ELIMINAR"
+                    },
+                    class: "btn btn-danger" %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Vista previa de cambios -->
+  <div class="preview-section" id="previewSection" style="display: none;">
+    <h3>👀 Vista Previa de Cambios</h3>
+    <div class="preview-comparison">
+
+      <!-- Antes -->
+      <div class="preview-card before">
+        <div class="preview-label">Antes</div>
+        <div class="preview-route">
+          <span id="beforeFrom"><%= @ticket.from %></span>
+          <span class="arrow">✈️</span>
+          <span id="beforeTo"><%= @ticket.to %></span>
+        </div>
+        <div class="preview-details">
+          <div id="beforeDate">📅 <%= @ticket.date %></div>
+          <div id="beforePrice">💰 $<%= @ticket.price %></div>
+        </div>
+      </div>
+
+      <!-- Después -->
+      <div class="preview-card after">
+        <div class="preview-label">Después</div>
+        <div class="preview-route">
+          <span id="afterFrom"><%= @ticket.from %></span>
+          <span class="arrow">✈️</span>
+          <span id="afterTo"><%= @ticket.to %></span>
+        </div>
+        <div class="preview-details">
+          <div id="afterDate">📅 <%= @ticket.date %></div>
+          <div id="afterPrice">💰 $<%= @ticket.price %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .ticket-edit-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .edit-header h1 {
+    color: #111827;
+    margin: 0;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 15px;
+  }
+
+  .back-link, .list-link {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border: 1px solid #2563eb;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .back-link:hover, .list-link:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .current-info {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .current-info h3 {
+    margin: 0 0 15px 0;
+    color: #374151;
+  }
+
+  .current-ticket-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .current-route {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #2563eb;
+  }
+
+  .current-route .arrow {
+    margin: 0 10px;
+  }
+
+  .current-details {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  .current-details .offer {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+  }
+
+  .edit-form {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  .form-sections {
+    padding: 30px;
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .form-section h4 {
+    color: #374151;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .form-input {
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    background: white;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .price-input-wrapper {
+    position: relative;
+  }
+
+  .currency-symbol {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  .price-input {
+    padding-left: 40px;
+  }
+
+  .field-help {
+    margin-top: 6px;
+    font-size: 12px;
+    color: #9ca3af;
+    font-style: italic;
+  }
+
+  .error-messages {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .error-messages h4 {
+    color: #dc2626;
+    margin: 0 0 12px 0;
+    font-size: 16px;
+  }
+
+  .error-messages ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .error-messages li {
+    color: #dc2626;
+    margin-bottom: 6px;
+  }
+
+  .offer-warning {
+    background: linear-gradient(135deg, #fef3c7, #fed7aa);
+    border: 2px solid #f59e0b;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+  }
+
+  .warning-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .warning-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .warning-text strong {
+    color: #92400e;
+  }
+
+  .warning-text p {
+    margin: 8px 0 0 0;
+    color: #78350f;
+    line-height: 1.5;
+  }
+
+  .form-actions {
+    background: #f9fafb;
+    padding: 25px 30px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .danger-zone {
+    margin-left: auto;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  .btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+  }
+
+  .btn-secondary:hover {
+    background: #e5e7eb;
+  }
+
+  .btn-danger {
+    background: #dc2626;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #b91c1c;
+  }
+
+  .btn-large {
+    padding: 14px 28px;
+    font-size: 18px;
+  }
+
+  .preview-section {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+  }
+
+  .preview-section h3 {
+    margin: 0 0 20px 0;
+    color: #374151;
+  }
+
+  .preview-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .preview-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+  }
+
+  .preview-label {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid #e5e7eb;
+  }
+
+  .before .preview-label {
+    color: #6b7280;
+    border-color: #d1d5db;
+  }
+
+  .after .preview-label {
+    color: #059669;
+    border-color: #10b981;
+    background: #ecfdf5;
+  }
+
+  .preview-route {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2563eb;
+  }
+
+  .preview-route .arrow {
+    margin: 0 10px;
+  }
+
+  .preview-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 14px;
+  }
+
+  .changed {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .edit-header {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+
+    .header-actions {
+      justify-content: center;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .preview-comparison {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .danger-zone {
+      margin-left: 0;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .ticket-edit-container {
+      padding: 10px;
+    }
+
+    .form-sections {
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.edit-form');
+    const previewSection = document.getElementById('previewSection');
+    const inputs = form.querySelectorAll('input');
+
+    // Valores originales
+    const original = {
+      from: '<%= @ticket.from %>',
+      to: '<%= @ticket.to %>',
+      price: '<%= @ticket.price %>',
+      date: '<%= @ticket.date %>'
+    };
+
+    // Escuchar cambios en los inputs
+    inputs.forEach(input => {
+      input.addEventListener('input', updatePreview);
+    });
+
+    function updatePreview() {
+      const current = {
+        from: form.querySelector('#ticket_from').value,
+        to: form.querySelector('#ticket_to').value,
+        price: form.querySelector('#ticket_price').value,
+        date: form.querySelector('#ticket_date').value
+      };
+
+      // Verificar si hay cambios
+      const hasChanges = Object.keys(original).some(key =>
+        original[key] !== current[key]
+      );
+
+      if (hasChanges) {
+        previewSection.style.display = 'block';
+
+        // Actualizar vista previa "después"
+        updatePreviewElement('afterFrom', current.from, original.from);
+        updatePreviewElement('afterTo', current.to, original.to);
+        updatePreviewElement('afterPrice', `💰 ${current.price}`, `💰 ${original.price}`);
+        updatePreviewElement('afterDate', `📅 ${current.date}`, `📅 ${original.date}`);
+      } else {
+        previewSection.style.display = 'none';
+      }
+    }
+
+    function updatePreviewElement(elementId, newValue, originalValue) {
+      const element = document.getElementById(elementId);
+      element.textContent = newValue;
+
+      // Destacar si cambió
+      if (newValue !== originalValue) {
+        element.classList.add('changed');
+      } else {
+        element.classList.remove('changed');
+      }
+    }
+  });
+</script>
