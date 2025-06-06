@@ -1,0 +1,22 @@
+<div class="container border shadow mt-4">
+  <h1 class="text d-flex justify-content-center">
+    Welcome,
+    <% if @user.company? %>
+      <%= @user.first_name %>
+    <% else %>
+      <%= @user.first_name %> <%= @user.last_name %>
+    <% end %>
+  </h1>
+
+  <p><strong>Full Name:</strong>
+    <% if @user.company? %>
+      <%= @user.first_name %>
+    <% else %>
+      <%= @user.first_name %> <%= @user.last_name %>
+    <% end %>
+  </p>
+
+  <p><strong>Email:</strong> <%= @user.email %></p>
+
+  <%= link_to 'Log out', destroy_user_session_path, method: :delete, class:'btn btn-danger btn-sm my-2'%>
+</div>
