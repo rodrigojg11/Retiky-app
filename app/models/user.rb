@@ -5,5 +5,11 @@ class User < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :orders, dependent: :destroy
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+        :recoverable, :rememberable, :validatable
+
+  enum role: { customer: "customer", company: "company" }
+  # has_many :tickets
+  # has_many :orders
+
+  validates :first_name, :last_name, :role, presence: true
 end

@@ -1,2 +1,140 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<section class="bg-dark text-white py-4">
+  <div class="container">
+    <%= form_with url: search_flights_path, method: :get, local: true, html: { class: "row g-2 align-items-end" } do %>
+      <!-- Origin -->
+      <div class="col-md-2">
+        <label for="from" class="form-label text-white">From</label>
+        <%= text_field_tag :from, params[:from], class: "form-control", placeholder: "e.g. MEX" %>
+      </div>
+
+      <!-- Destination -->
+      <div class="col-md-2">
+        <label for="to" class="form-label text-white">To</label>
+        <%= text_field_tag :to, params[:to], class: "form-control", placeholder: "e.g. JFK" %>
+      </div>
+
+      <!-- Departure Date -->
+      <div class="col-md-2">
+        <label for="departure_date" class="form-label text-white">Departure</label>
+        <%= date_field_tag :departure_date, params[:departure_date], class: "form-control" %>
+      </div>
+
+      <!-- Return Date -->
+      <div class="col-md-2">
+        <label for="return_date" class="form-label text-white">Return</label>
+        <%= date_field_tag :return_date, params[:return_date], class: "form-control" %>
+      </div>
+
+      <!-- Passengers (optional for now) -->
+      <div class="col-md-3">
+        <label for="passengers" class="form-label text-white">Passengers</label>
+        <%= text_field_tag :passengers, params[:passengers], class: "form-control", placeholder: "e.g. 1 Adult" %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-md-1 d-grid">
+        <%= link_to "Search", ticket_path(@ticket), class: "btn btn-primary btn-lg" %>
+      </div>
+    <% end %>
+
+    <section class="py-5 text-white text-center" style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; min-height: 400px;"">
+  <div class="container py-5">
+    <h1 class="display-4 fw-bold">Explore the world your way</h1>
+    <p class="lead">Compare millions of flights and find the perfect deal.</p>
+    <a href="#flight-search" class="btn btn-light btn-lg mt-3">Search Flights</a>
+  </div>
+</section>
+<section class="py-5 bg-primary">
+  <div class="container">
+    <h2 class="fw-bold mb-4 text-black-50">How to book flights with OurApp</h2>
+
+    <div class="accordion bg-transparent" id="faqAccordion">
+      <% [
+        ["How does OurApp work?", "We search across hundreds of airlines and agencies to help you find the best deals."],
+        ["How can I find the cheapest flight?", "Use flexible dates and destinations to find the lowest prices available."],
+        ["Where should I book my next trip?", "Try trending destinations or use our 'Explore Anywhere' tool!"],
+        ["Is the flight booking with OurApp directly?", "No. We redirect you to the airline or agency to finalize your booking."],
+        ["What happens after I book?", "You’ll get a confirmation directly from the airline or travel agency."],
+        ["Does OurApp offer hotels too?", "Yes, you can also search hotels and car rentals."],
+        ["Can I rent a car as well?", "Of course! Compare rental prices in your destination."],
+        ["What is a Price Alert?", "We’ll notify you by email when prices for your route drop."],
+        ["Can I book a flexible flight ticket?", "Many airlines offer flexible booking options during checkout."],
+        ["Can I search for eco-friendly flights?", "Yes! Look for flights with lower CO₂ emissions in the results."]
+      ].each_with_index do |(question, answer), index| %>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-<%= index %>">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
+              <%= question %>
+            </button>
+          </h2>
+          <div id="collapse-<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index %>" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              <%= answer %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
+  </div>
+  <footer class="bg-dark text-white pt-5 pb-3 mt-5">
+  <div class="container">
+
+    <!-- Botones superiores -->
+    <div class="mb-4">
+      <button class="btn btn-secondary w-100 mb-2 rounded-pill text-start">
+        📱 Descarga nuestra app
+      </button>
+      <button class="btn btn-secondary w-100 rounded-pill text-start">
+        🇲🇽 México · Español (MX) · $ MXN
+      </button>
+    </div>
+
+    <!-- Links -->
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <ul class="list-unstyled">
+          <li><strong>Ayuda</strong></li>
+          <li><a href="#" class="text-white text-decoration-none">Configuración de privacidad</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Iniciar sesión</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Política de cookies</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Política de privacidad</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Términos de servicio</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Información de la empresa</a></li>
+        </ul>
+      </div>
+
+      <div class="col-md-9 mb-3">
+        <div class="accordion accordion-flush" id="footerAccordion">
+          <% ["Explorar", "Compañía", "Partners", "Viajes", "Sitios internacionales"].each_with_index do |section, i| %>
+            <div class="accordion-item bg-dark border-0">
+              <h2 class="accordion-header" id="flush-heading-<%= i %>">
+                <button class="accordion-button collapsed bg-dark text-white px-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= i %>" aria-expanded="false" aria-controls="flush-collapse-<%= i %>">
+                  <%= section %>
+                </button>
+              </h2>
+              <div id="flush-collapse-<%= i %>" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
+                <div class="accordion-body px-0 text-muted small">
+                  <ul class="list-unstyled">
+                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 1</a></li>
+                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 2</a></li>
+                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 3</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea final -->
+    <div class="text-muted small text-center pt-4">
+      Compara y reserva vuelos baratos de donde sea a cualquier lugar<br>
+      © TuApp 2024 – <%= Time.now.year %>
+    </div>
+  </div>
+</footer>
+
+</section>
