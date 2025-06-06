@@ -1,0 +1,48 @@
+<section class="py-5 bg-light">
+  <div class="container">
+    <!-- 🔍 Search form -->
+    <div class="bg-white p-4 shadow rounded-3">
+      <%= form_with url: search_flights_path, method: :get, local: true do %>
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label">From</label>
+            <%= text_field_tag :from, params[:from], class: "form-control" %>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">To</label>
+            <%= text_field_tag :to, params[:to], class: "form-control" %>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Date</label>
+            <%= date_field_tag :date, params[:date], class: "form-control" %>
+          </div>
+          <div class="col-12 text-end">
+            <%= submit_tag "Search Flights", class: "btn btn-primary btn-lg" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- ✈️ Results -->
+    <% if defined?(@flights) && @flights.present? %>
+      <div class="row mt-4">
+        <% @flights.each do |flight| %>
+          <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= flight.dig("airline", "name") || "Unknown Airline" %>
+                  <%= flight.dig("flight", "iata") || "No Number" %>
+                </h5>
+                <p class="card-text">From <%= flight.dig("departure", "iata") %> to <%= flight.dig("arrival", "iata") %></p>
+                <p class="card-text"><strong>Status:</strong> <%= flight["flight_status"] %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% elsif defined?(@flights) %>
+      <div class="alert alert-warning text-center mt-4">No flights found.</div>
+    <% end %>
+  </div>
+</section>
