@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#home"
   get "/search_flights", to: "flight#search", as: :search_flights
-
+  
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
