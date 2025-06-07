@@ -7,9 +7,11 @@
       <i class="fas fa-ticket-alt me-2 text-primary"></i>
       Todos los Tickets
     </h1>
+    <% if current_user.role == "company" %>
     <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
       <i class="fas fa-plus me-2"></i>
       Crear Nuevo Ticket
+    <% end %>
     <% end %>
   </div>
 
@@ -86,7 +88,7 @@
                   <i class="fas fa-eye me-1"></i>
                   Ver
                 <% end %>
-
+                  <% if current_user.role == "company" %>
                 <%= link_to edit_ticket_path(ticket), class: "btn btn-outline-secondary btn-sm" do %>
                   <i class="fas fa-edit"></i>
                 <% end %>
@@ -97,6 +99,7 @@
                             },
                             class: "btn btn-outline-danger btn-sm" do %>
                   <i class="fas fa-trash"></i>
+                <% end %>
                 <% end %>
               </div>
             </div>

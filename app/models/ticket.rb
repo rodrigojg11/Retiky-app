@@ -1,4 +1,6 @@
 class Ticket < ApplicationRecord
+  # before_save :apply_discount, if: :discount_changed?
+
   belongs_to :user
   has_many :orders, dependent: :destroy
 
@@ -10,6 +12,10 @@ class Ticket < ApplicationRecord
   validate :date_not_in_past
   validate :from_different_from_to
   validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
+
+  # def apply_discount
+  #   price = price - (price * discount / 100.0) if discount.present? && discount > 0
+  # end
 
   def has_active_offer?
     discount.present? && discount > 0 && lightning_offer_active?
@@ -26,11 +32,6 @@ class Ticket < ApplicationRecord
 
   def discount_percentage
     discount || 0
-  end
-
-  def savings_amount
-    return 0 unless has_active_offer?
-    price * discount / 100
   end
 
   def tiempo_restante_oferta
