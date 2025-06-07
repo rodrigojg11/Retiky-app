@@ -1,16 +1,30 @@
+<% airports = [
+  ["Ciudad de México (MEX)", "MEX"],
+  ["Guadalajara (GDL)", "GDL"],
+  ["Cancún (CUN)", "CUN"],
+  ["Nueva York - JFK (JFK)", "JFK"],
+  ["Los Ángeles (LAX)", "LAX"],
+  ["Miami (MIA)", "MIA"],
+  ["Toronto (YYZ)", "YYZ"],
+  ["Madrid (MAD)", "MAD"],
+  ["París - Charles de Gaulle (CDG)", "CDG"],
+  ["Londres - Heathrow (LHR)", "LHR"],
+  ["Tokio - Narita (NRT)", "NRT"]
+] %>
+
 <section class="bg-dark text-white py-4">
   <div class="container">
     <%= form_with url: tickets_path, method: :get, html: { class: "row g-2 align-items-end" } do %>
       <!-- Origin -->
       <div class="col-md-2">
         <label for="from" class="form-label text-white">From</label>
-        <%= text_field_tag :from, params[:from], class: "form-control", placeholder: "e.g. MEX" %>
+        <%= select_tag :from, options_for_select(airports, params[:from]), class: "form-select" %>
       </div>
 
       <!-- Destination -->
       <div class="col-md-2">
         <label for="to" class="form-label text-white">To</label>
-        <%= text_field_tag :to, params[:to], class: "form-control", placeholder: "e.g. JFK" %>
+        <%= select_tag :to, options_for_select(airports, params[:to]), class: "form-select" %>
       </div>
 
       <!-- Departure Date -->

@@ -35,11 +35,6 @@ class Ticket < ApplicationRecord
     discount || 0
   end
 
-  def savings_amount
-    return 0 unless has_active_offer?
-    price * discount / 100
-  end
-
   def tiempo_restante_oferta
     tiempo_restante = tiempo_restante_horas
     return "Oferta expirada" if tiempo_restante <= 0
