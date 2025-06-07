@@ -8,8 +8,7 @@ class User < ApplicationRecord
         :recoverable, :rememberable, :validatable
 
   enum role: { customer: "customer", company: "company" }
-  # has_many :tickets
-  # has_many :orders
 
-  validates :first_name, :last_name, :role, presence: true
+  validates :role, presence: true
+  # validates :first_name, :last_name, :role, presence: true
 end
