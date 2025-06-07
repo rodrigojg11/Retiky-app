@@ -11,6 +11,13 @@ class Ticket < ApplicationRecord
   validate :from_different_from_to
   validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
 
+  include PgSearch::Model
+  pg_search_scope :search_tickets,
+    against: [ :from, :to ],
+    using: {
+      tsearch: { prefix: true } # <-- now `superman batm` will return something!
+    }
+
   def has_active_offer?
     discount.present? && discount > 0 && lightning_offer_active?
   end
@@ -26,11 +33,6 @@ class Ticket < ApplicationRecord
 
   def discount_percentage
     discount || 0
-  end
-
-  def savings_amount
-    return 0 unless has_active_offer?
-    price * discount / 100
   end
 
   def tiempo_restante_oferta
