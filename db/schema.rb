@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_05_143757) do
     t.float "lightning"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "lightning_start_time"
   end
 
   create_table "users", force: :cascade do |t|
