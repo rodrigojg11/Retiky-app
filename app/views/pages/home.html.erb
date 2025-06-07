@@ -1,4 +1,5 @@
 <% airports = [
+  ["Select...", ""],
   ["Ciudad de México (MEX)", "MEX"],
   ["Guadalajara (GDL)", "GDL"],
   ["Cancún (CUN)", "CUN"],
@@ -14,35 +15,56 @@
 
 <section class="bg-dark text-white py-4">
   <div class="container">
+    
     <%= form_with url: tickets_path, method: :get, html: { class: "row g-2 align-items-end" } do %>
+
       <!-- Origin -->
       <div class="col-md-2">
         <label for="from" class="form-label text-white">From</label>
-        <%= select_tag :from, options_for_select(airports, params[:from]), class: "form-select" %>
+        <%= select_tag :from,
+        options_for_select(airports, params[:from]),
+        include_blank: "Select...",
+        class: "form-select",
+        data: { flight_form_target: "from",
+        action: "input->flight-form#validate" } %>
       </div>
 
       <!-- Destination -->
       <div class="col-md-2">
         <label for="to" class="form-label text-white">To</label>
-        <%= select_tag :to, options_for_select(airports, params[:to]), class: "form-select" %>
+        <%= select_tag :to,
+        options_for_select(airports, params[:to]),
+        include_blank: "Select...",
+        class: "form-select",
+        data: { flight_form_target: "to",
+        action: "input->flight-form#validate" } %>
       </div>
 
       <!-- Departure Date -->
       <div class="col-md-2">
         <label for="departure_date" class="form-label text-white">Departure</label>
-        <%= date_field_tag :departure_date, params[:departure_date], class: "form-control" %>
+        <%= date_field_tag :departure_date,
+        params[:departure_date], class: "form-control",
+        data: { flight_form_target: "departure",
+        action: "input->flight-form#validate" } %>
       </div>
 
       <!-- Return Date -->
       <div class="col-md-2">
         <label for="return_date" class="form-label text-white">Return</label>
-        <%= date_field_tag :return_date, params[:return_date], class: "form-control" %>
+        <%= date_field_tag :return_date,
+        params[:return_date], class: "form-control",
+        data: { flight_form_target: "return",
+        action: "input->flight-form#validate" } %>
       </div>
 
       <!-- Passengers (optional for now) -->
       <div class="col-md-3">
         <label for="passengers" class="form-label text-white">Passengers</label>
-        <%= text_field_tag :passengers, params[:passengers], class: "form-control", placeholder: "e.g. 1 Adult" %>
+        <%= text_field_tag :passengers,
+        params[:passengers],
+        class: "form-control",
+        placeholder: "e.g. 1 Adult" %>
       </div>
 
       <!-- Submit Button -->
