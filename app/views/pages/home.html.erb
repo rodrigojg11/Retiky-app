@@ -15,14 +15,14 @@
 
 <section class="bg-dark text-white py-4">
   <div class="container">
-    
+
     <%= form_with url: tickets_path, method: :get, html: { class: "row g-2 align-items-end" } do %>
 
       <!-- Origin -->
       <div class="col-md-2">
         <label for="from" class="form-label text-white">From</label>
         <%= select_tag :from,
-        options_for_select(airports, params[:from]),
+        options_for_select(Ticket::AIRPORTS, params[:from]),
         include_blank: "Select...",
         class: "form-select",
         data: { flight_form_target: "from",
@@ -33,7 +33,7 @@
       <div class="col-md-2">
         <label for="to" class="form-label text-white">To</label>
         <%= select_tag :to,
-        options_for_select(airports, params[:to]),
+        options_for_select(Ticket::AIRPORTS, params[:to]),
         include_blank: "Select...",
         class: "form-select",
         data: { flight_form_target: "to",

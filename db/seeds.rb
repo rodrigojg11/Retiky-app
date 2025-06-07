@@ -7,36 +7,33 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+AIRPORTS = {
+  "MEX" => "Ciudad de México (MEX)",
+  "GDL" => "Guadalajara (GDL)",
+  "CUN" => "Cancún (CUN)",
+  "JFK" => "Nueva York - JFK (JFK)",
+  "LAX" => "Los Ángeles (LAX)",
+  "MIA" => "Miami (MIA)",
+  "YYZ" => "Toronto (YYZ)",
+  "MAD" => "Madrid (MAD)",
+  "CDG" => "París - Charles de Gaulle (CDG)",
+  "LHR" => "Londres - Heathrow (LHR)",
+  "NRT" => "Tokio - Narita (NRT)"
+}
+  AIRPORTS.each do |fromcode, fromname|
+    AIRPORTS.each do |tocode, toname|
+      next if fromcode == tocode
+      
+      Ticket.create!(
+        from: "#{fromcode} - #{fromname}",
+        to: "#{tocode} - #{toname}",
+        price: rand(100..1500),
+        date: Date.today+rand(1..30).days,
+        user: User.find(2),
+      )
+    end
+  end
 puts "⛔️ Borrando ofertas anteriores..."
-Offer.destroy_all
-
+# Ticket.destroy_all
 puts "✈️ Creando nuevas ofertas..."
-
-Offer.create!(
-  title: "Vuelo CDMX - Madrid",
-  description: "Vuelo directo ida y vuelta desde Ciudad de México a Madrid.",
-  price: 850.00,
-  origin: "Ciudad de México",
-  destination: "Madrid",
-  departure_date: Date.new(2025, 7, 10)
-)
-
-Offer.create!(
-  title: "Vuelo Lima - Buenos Aires",
-  description: "Vuelo económico con escala en Santiago.",
-  price: 430.50,
-  origin: "Lima",
-  destination: "Buenos Aires",
-  departure_date: Date.new(2025, 7, 15)
-)
-
-Offer.create!(
-  title: "Vuelo Bogotá - Cancún",
-  description: "Viaje todo incluido para disfrutar del Caribe.",
-  price: 590.75,
-  origin: "Bogotá",
-  destination: "Cancún",
-  departure_date: Date.new(2025, 8, 5)
-)
-
-puts "✅ Ofertas creadas: #{Offer.count}"
+# puts "✅ Ofertas creadas: #{Offer.count}"
