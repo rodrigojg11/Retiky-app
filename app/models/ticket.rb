@@ -1,6 +1,4 @@
 class Ticket < ApplicationRecord
-  # before_save :apply_discount, if: :discount_changed?
-
   belongs_to :user
   has_many :orders, dependent: :destroy
 
@@ -13,9 +11,12 @@ class Ticket < ApplicationRecord
   validate :from_different_from_to
   validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
 
-  # def apply_discount
-  #   price = price - (price * discount / 100.0) if discount.present? && discount > 0
-  # end
+  include PgSearch::Model
+  pg_search_scope :search_tickets,
+    against: [ :from, :to ],
+    using: {
+      tsearch: { prefix: true } # <-- now `superman batm` will return something!
+    }
 
   def has_active_offer?
     discount.present? && discount > 0 && lightning_offer_active?

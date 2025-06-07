@@ -1,7 +1,14 @@
 class TicketsController < ApplicationController
   skip_before_action :authenticate_user!, only: :index
   def index
-    @tickets = Ticket.all
+    if params[:from].present? || params[:to].present?
+      query = [
+        params[:from],params[:to]
+      ].compact.join(' ')
+      @tickets = Ticket.search_tickets(query)
+    else
+      @tickets = Ticket.all
+    end
   end
 
   def show

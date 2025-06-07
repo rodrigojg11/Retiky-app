@@ -14,7 +14,7 @@
 
 <section class="bg-dark text-white py-4">
   <div class="container">
-    <%= form_with url: search_flights_path, method: :get, local: true, html: { class: "row g-2 align-items-end" } do %>
+    <%= form_with url: tickets_path, method: :get, html: { class: "row g-2 align-items-end" } do %>
       <!-- Origin -->
       <div class="col-md-2">
         <label for="from" class="form-label text-white">From</label>
@@ -47,9 +47,11 @@
 
       <!-- Submit Button -->
       <div class="col-md-1 d-grid">
-        <%= link_to "Search", tickets_path, class: "btn btn-primary btn-lg btn-sm" %>
+        <%= submit_tag "Search", class: "btn btn-primary btn-lg" %>
+        <%#= link_to "Search", tickets_path, class: "btn btn-primary btn-lg btn-sm" %>
       </div>
     <% end %>
+
 
     <section class="py-5 text-white text-center" style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; min-height: 400px;"">
   <div class="container py-5">
