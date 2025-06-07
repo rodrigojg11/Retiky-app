@@ -14,7 +14,7 @@
         <i class="fas fa-edit me-2"></i>
         Editar
       <% end %>
-      <%= link_to ticket_path(@ticket), method: :delete,
+      <%= button_to ticket_path(@ticket), method: :delete,
                   data: { confirm: "¿Estás seguro?" },
                   class: "btn btn-outline-danger" do %>
         <i class="fas fa-trash me-2"></i>

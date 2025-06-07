@@ -1,4 +1,17 @@
 class Ticket < ApplicationRecord
+  AIRPORTS = [
+    ["Ciudad de México (MEX)", "MEX"],
+    ["Guadalajara (GDL)", "GDL"],
+    ["Cancún (CUN)", "CUN"],
+    ["Nueva York - JFK (JFK)", "JFK"],
+    ["Los Ángeles (LAX)", "LAX"],
+    ["Miami (MIA)", "MIA"],
+    ["Toronto (YYZ)", "YYZ"],
+    ["Madrid (MAD)", "MAD"],
+    ["París - Charles de Gaulle (CDG)", "CDG"],
+    ["Londres - Heathrow (LHR)", "LHR"],
+    ["Tokio - Narita (NRT)", "NRT"]
+  ]
   belongs_to :user
   has_many :orders, dependent: :destroy
 
