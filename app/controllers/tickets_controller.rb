@@ -48,26 +48,62 @@ class TicketsController < ApplicationController
     @ticket.destroy
     redirect_to tickets_path, notice: 'Ticket eliminado!'
   end
+
 # esta es la que es rara
-def start_lightning_offer
+  def create_lightning_offer
+  @ticket = Ticket.find(params[:id])
+
+  duracion = ticket_params[:duracion].to_f
+  descuento = ticket_params[:discount].to_i
+
+  # Validaciones
+    if duracion < 0.5 || duracion > 6
+      redirect_to @ticket, alert: "La duración debe ser entre 0.5 y 6 horas"
+      return
+    end
+
+    if descuento < 1 || descuento > 50
+      redirect_to @ticket, alert: "El descuento debe ser entre 1% y 50%"
+      return
+    end
+
+  # Crear la oferta
+    @ticket.update!(
+      discount: descuento,
+      lightning: duracion,
+      lightning_start_time: Time.current
+    )
+    flash[:show_confirm_popup] = true
+    redirect_to @ticket, notice: "¡Oferta relámpago creada exitosamente!"
+
+  rescue => e
+    redirect_to @ticket, alert: "Error al crear la oferta: #{e.message}"
+  end
+
+  def purchase_confirmation
+    @ticket = Ticket.find(params[:id])
+  end
+
+
+  def start_lightning_offer
   @ticket = Ticket.find(params[:id])
 
   horas = params[:horas].to_f
-  descuento = params[:descuento].to_i
+  descuento = params[:discount].to_i
 
   @ticket.iniciar_oferta_relampago!(horas, descuento)
   redirect_to @ticket, notice: '¡Oferta relámpago iniciada!'
-end
+  end
 
-def stop_lightning_offer
+  def stop_lightning_offer
   @ticket = Ticket.find(params[:id])
   @ticket.detener_oferta_relampago!
   redirect_to @ticket, notice: 'Oferta detenida'
-end
+  end
 
   private
   def ticket_params
-    params.require(:ticket).permit(:from, :to, :price, :date)
+    params.require(:ticket).permit(:duracion, :discount, :from, :to, :price, :date)
   end
 
 end
