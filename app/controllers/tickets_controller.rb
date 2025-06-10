@@ -73,11 +73,15 @@ class TicketsController < ApplicationController
       lightning: duracion,
       lightning_start_time: Time.current
     )
-
+    flash[:show_confirm_popup] = true
     redirect_to @ticket, notice: "¡Oferta relámpago creada exitosamente!"
 
   rescue => e
     redirect_to @ticket, alert: "Error al crear la oferta: #{e.message}"
+  end
+
+  def purchase_confirmation
+    @ticket = Ticket.find(params[:id])
   end
 
 

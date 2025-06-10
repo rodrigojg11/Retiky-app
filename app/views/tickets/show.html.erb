@@ -89,21 +89,19 @@
       </div>
 
       <!-- Botón compra -->
-      <div class="text-center">
-        <% if @ticket.has_active_offer? %>
-          <button class="btn btn-warning btn-lg px-5 py-3 fw-bold">
-            <i class="fas fa-bolt me-2"></i>
-            Crear promoción Ahora - $<%= number_with_delimiter(@ticket.precio_final) %>
-          </button>
-        <% else %>
-          <button class="btn btn-primary btn-lg px-5 py-3 fw-bold">
-            <i class="fas fa-ticket-alt me-2"></i>
-            Comprar por $<%= number_with_delimiter(@ticket.price) %>
-          </button>
-        <% end %>
-      </div>
-    </div>
-  </div>
+    <div class="text-center">
+  <% if @ticket.has_active_offer? %>
+    <%= link_to purchase_confirmation_ticket_path(@ticket), class: "btn btn-warning btn-lg px-5 py-3 fw-bold" do %>
+      <i class="fas fa-bolt me-2"></i>
+      Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.precio_final) %>
+    <% end %>
+  <% else %>
+    <%= link_to purchase_confirmation_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
+      <i class="fas fa-ticket-alt me-2"></i>
+      Comprar por $<%= number_with_delimiter(@ticket.price) %>
+    <% end %>
+  <% end %>
+</div>
 
   <!-- Panel de gestión (solo para propietario) -->
   <% if current_user.role == "company" %>
@@ -183,12 +181,21 @@
             </div>
 
             <div class="col-12">
-              <%= f.submit "Iniciar Oferta Relámpago", class: "btn btn-primary" %>
+                <%= f.submit "Crear Promoción Ahora", class: "btn btn-primary", id: "crear-oferta-btn" %>
             </div>
           <% end %>
         <% end %>
       </div>
     </div>
   <% end %>
+<% if flash[:show_confirm_popup] %>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (confirm('¡Oferta relámpago creada exitosamente! ¿Deseas volver a la lista de tickets?')) {
+        window.location.href = '<%= tickets_path %>';
+      }
+    });
+  </script>
+<% end %>
 
 </div>

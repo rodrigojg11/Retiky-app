@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     member do
       patch 'create_lightning_offer', to: 'tickets#create_lightning_offer'
       patch 'stop_lightning_offer', to: 'tickets#stop_lightning_offer'
+      get :purchase_confirmation, to: 'tickets#purchase_confirmation'
     end
   end
 
