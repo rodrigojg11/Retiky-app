@@ -23,14 +23,14 @@ AIRPORTS = {
   AIRPORTS.each do |fromcode, fromname|
     AIRPORTS.each do |tocode, toname|
       next if fromcode == tocode
-      
+
       Ticket.create!(
         from: "#{fromcode} - #{fromname}",
         to: "#{tocode} - #{toname}",
         price: rand(100..1500),
         date: Date.today+rand(1..30).days,
-        user: User.find(2),
-      )
+        user: User.where(role: "company", active: true).first,
+        )
     end
   end
 puts "⛔️ Borrando ofertas anteriores..."
