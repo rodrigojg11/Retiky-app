@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   root "pages#home"
   get "/search_flights", to: "flight#search", as: :search_flights
-  
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -10,7 +10,14 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   resources :tickets do
     resources :orders, only: [:create, :destroy]
+    member do
+      patch 'create_lightning_offer', to: 'tickets#create_lightning_offer'
+      patch 'stop_lightning_offer', to: 'tickets#stop_lightning_offer'
+      get :purchase_confirmation, to: 'tickets#purchase_confirmation'
+    end
   end
+
+
   resources :orders, only: [:index, :show, :destroy]
 
   resources :users, only: [:show] do
@@ -19,6 +26,7 @@ Rails.application.routes.draw do
       get 'orders', to: 'users#orders'
     end
   end
+
 
 
   get "up" => "rails/health#show", as: :rails_health_check

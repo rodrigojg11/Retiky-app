@@ -14,6 +14,7 @@ class Ticket < ApplicationRecord
   ]
   belongs_to :user
   has_many :orders, dependent: :destroy
+  attr_accessor :duracion, :descuento_temporal
 
   # Validaciones usando los nombres de campos de tu migración
   validates :to, presence: true, length: { maximum: 50}
