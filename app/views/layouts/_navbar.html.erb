@@ -10,10 +10,15 @@
       <ul class="navbar-nav">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <span class="nav-link">Welcome, <%= current_user.first_name %></span>
+            <span class="nav-link">Welcome, <%= current_user.email %></span>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+          <li class="nav-item dropdown d-flex align-items-center">
+              <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                <% if current_user.photo.attached? %>
+                    <%= cl_image_tag current_user.photo.key, class: "rounded-circle", alt: "Perfil", width: 32, height: 32 %>
+                <% else %>
+                    <%= cl_image_tag "avatar", class: "rounded-circle", alt: "Avatar por defecto", width: 32, height: 32 %>
+                <% end %>
               Menu
             </a>
             <ul class="dropdown-menu dropdown-menu-end">

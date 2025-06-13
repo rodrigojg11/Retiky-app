@@ -59,6 +59,12 @@ gem 'ostruct'
 
 gem 'devise'
 
+gem "cloudinary"
+
+gem "dotenv-rails"
+
+gem "activestorage-cloudinary-service"
+
 group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

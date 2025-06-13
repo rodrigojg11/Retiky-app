@@ -5,10 +5,15 @@ class TicketsController < ApplicationController
       query = [
         params[:from],params[:to]
       ].compact.join(' ')
-      @tickets = Ticket.search_tickets(query)
+      @tickets = Ticket.search_tickets(query).order(date: :asc)
     else
-      @tickets = Ticket.all
+      @tickets = Ticket.order(date: :asc)
     end
+  end
+
+  def checkout
+    @ticket = Ticket.find(params[:id])
+    @order = Order.new
   end
 
   def show
