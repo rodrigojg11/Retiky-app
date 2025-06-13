@@ -63,6 +63,22 @@ class Ticket < ApplicationRecord
     end
   end
 
+  def iniciar_oferta_relampago!(duracion_horas, descuento_porcentaje)
+    update!(
+      lightning: duracion_horas,
+      lightning_start_time: Time.current,
+      discount: descuento_porcentaje
+    )
+  end
+
+  def detener_oferta_relampago!
+    update!(
+      lightning: 0,
+      lightning_start_time: nil,
+      discount: 0
+    )
+  end
+
   private
 
   def date_not_in_past
@@ -119,21 +135,5 @@ class Ticket < ApplicationRecord
     return 50 if tiempo_restante <= 2      # Moderado
     return 25 if tiempo_restante <= 4      # Bajo
     10 # Muy bajo: más de 4 horas
-  end
-
-  def iniciar_oferta_relampago!(duracion_horas, descuento_porcentaje)
-    update!(
-      lightning: duracion_horas,
-      lightning_start_time: Time.current,
-      discount: descuento_porcentaje
-    )
-  end
-
-  def detener_oferta_relampago!
-    update!(
-      lightning: 0,
-      lightning_start_time: nil,
-      discount: 0
-    )
   end
 end

@@ -15,65 +15,83 @@
 
 <section class="bg-dark text-white py-4">
   <div class="container">
+    <%= form_with url: tickets_path, method: :get, html: {
+    class: "row g-2 align-items-end",
+    data: {
+    controller: "flight-form",
+    action: "submit->flight-form#submit"
+  }
+} do %>
 
-    <%= form_with url: tickets_path, method: :get, html: { class: "row g-2 align-items-end" } do %>
+  <!-- Origin -->
+  <div class="col-md-2">
+    <label for="from" class="form-label text-white">From</label>
+    <%= select_tag :from,
+    options_for_select(Ticket::AIRPORTS, params[:from]),
+    include_blank: "Select...",
+    class: "form-select",
+    data: {
+    flight_form_target: "from",
+    action: "input->flight-form#validate"
+  } %>
+  </div>
 
-      <!-- Origin -->
-      <div class="col-md-2">
-        <label for="from" class="form-label text-white">From</label>
-        <%= select_tag :from,
-        options_for_select(Ticket::AIRPORTS, params[:from]),
-        include_blank: "Select...",
-        class: "form-select",
-        data: { flight_form_target: "from",
-        action: "input->flight-form#validate" } %>
-      </div>
+  <!-- Destination -->
+  <div class="col-md-2">
+    <label for="to" class="form-label text-white">To</label>
+    <%= select_tag :to,
+    options_for_select(Ticket::AIRPORTS, params[:to]),
+    include_blank: "Select...",
+    class: "form-select",
+    data: {
+    flight_form_target: "to",
+    action: "input->flight-form#validate"
+  } %>
+  </div>
 
-      <!-- Destination -->
-      <div class="col-md-2">
-        <label for="to" class="form-label text-white">To</label>
-        <%= select_tag :to,
-        options_for_select(Ticket::AIRPORTS, params[:to]),
-        include_blank: "Select...",
-        class: "form-select",
-        data: { flight_form_target: "to",
-        action: "input->flight-form#validate" } %>
-      </div>
+  <!-- Departure Date -->
+  <div class="col-md-2">
+    <label for="departure_date" class="form-label text-white">Departure</label>
+    <%= date_field_tag :departure_date,
+      params[:departure_date],
+      class: "form-control",
+      data: {
+        flight_form_target: "departure",
+        action: "input->flight-form#validate"
+      } %>
+  </div>
 
-      <!-- Departure Date -->
-      <div class="col-md-2">
-        <label for="departure_date" class="form-label text-white">Departure</label>
-        <%= date_field_tag :departure_date,
-        params[:departure_date], class: "form-control",
-        data: { flight_form_target: "departure",
-        action: "input->flight-form#validate" } %>
-      </div>
+  <!-- Return Date -->
+  <div class="col-md-2">
+    <label for="return_date" class="form-label text-white">Return</label>
+    <%= date_field_tag :return_date,
+      params[:return_date],
+      class: "form-control",
+      data: {
+        flight_form_target: "return",
+        action: "input->flight-form#validate"
+      } %>
+  </div>
 
-      <!-- Return Date -->
-      <div class="col-md-2">
-        <label for="return_date" class="form-label text-white">Return</label>
-        <%= date_field_tag :return_date,
-        params[:return_date], class: "form-control",
-        data: { flight_form_target: "return",
-        action: "input->flight-form#validate" } %>
-      </div>
+  <!-- Passengers -->
+  <div class="col-md-3">
+    <label for="passengers" class="form-label text-white">Passengers</label>
+    <%= text_field_tag :passengers,
+      params[:passengers],
+      class: "form-control",
+      placeholder: "e.g. 1 Adult" %>
+  </div>
 
-      <!-- Passengers (optional for now) -->
-      <div class="col-md-3">
-        <label for="passengers" class="form-label text-white">Passengers</label>
-        <%= text_field_tag :passengers,
-        params[:passengers],
-        class: "form-control",
-        placeholder: "e.g. 1 Adult" %>
-      </div>
+  <!-- Submit Button -->
+  <div class="col-md-1 d-grid">
+    <%= submit_tag "Search",
+      class: "btn btn-primary btn-lg",
+      data: {
+        flight_form_target: "button"
+      } %>
+  </div>
 
-      <!-- Submit Button -->
-      <div class="col-md-1 d-grid">
-        <%= submit_tag "Search", class: "btn btn-primary btn-lg" %>
-        <%#= link_to "Search", tickets_path, class: "btn btn-primary btn-lg btn-sm" %>
-      </div>
-    <% end %>
-
+<% end %>
 
     <section class="py-5 text-white text-center" style="background-image: url('https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; min-height: 400px;"">
   <div class="container py-5">
