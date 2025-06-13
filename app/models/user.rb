@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :validatable
-
+  has_one_attached :photo
   enum role: { customer: "customer", company: "company" }
 
   validates :role, presence: true

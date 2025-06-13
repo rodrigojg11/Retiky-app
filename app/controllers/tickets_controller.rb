@@ -11,6 +11,11 @@ class TicketsController < ApplicationController
     end
   end
 
+  def checkout
+    @ticket = Ticket.find(params[:id])
+    @order = Order.new
+  end
+
   def show
     @ticket = Ticket.find(params[:id])
   end

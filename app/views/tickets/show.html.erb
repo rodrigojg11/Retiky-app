@@ -96,7 +96,7 @@
       Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.precio_final) %>
     <% end %>
   <% else %>
-    <%= link_to purchase_confirmation_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
+    <%= link_to checkout_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
       <i class="fas fa-ticket-alt me-2"></i>
       Comprar por $<%= number_with_delimiter(@ticket.price) %>
     <% end %>
@@ -143,7 +143,7 @@
             </div>
 
             <div class="mt-3">
-              <%= link_to stop_lightning_offer_ticket_path(@ticket), method: :patch,
+              <%= button_to stop_lightning_offer_ticket_path(@ticket), method: :patch,
                           data: { confirm: "¿Detener la oferta relámpago?" },
                           class: "btn btn-outline-danger" do %>
                 <i class="fas fa-stop me-2"></i>

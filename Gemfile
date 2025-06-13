@@ -59,7 +59,15 @@ gem 'ostruct'
 
 gem 'devise'
 
+<<<<<<< HEAD
 gem 'dotenv'
+=======
+gem "cloudinary"
+
+gem "dotenv-rails"
+
+gem "activestorage-cloudinary-service"
+>>>>>>> da4597cc7333656fa8116a810d29a0e44cf953c7
 
 group :development, :test do
   gem "dotenv-rails"
