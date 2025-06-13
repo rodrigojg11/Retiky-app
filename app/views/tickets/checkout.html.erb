@@ -1,0 +1,136 @@
+<div class="container border w-75">
+  <div class="payment-container">
+    <div class="card-preview">
+      <div class="card-number">#### #### #### ####</div>
+      <div class="card-holder">Card Holder</div>
+      <div class="card-expiry">MM/YY</div>
+    </div>
+
+    <%= form_with url: orders_path, method: :post, class: "payment-form" do |f| %>
+      <div class="form-group">
+        <%= hidden_field_tag :ticket_id, @ticket.id %>
+        <%= f.label :card_number, "Card Number" %>
+        <%= f.text_field :card_number, maxlength: 19, placeholder: "1234 5678 9012 3456", inputmode: "numeric", class: "input-card-number" %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :card_holder, "Card Holder Name" %>
+        <%= f.text_field :card_holder, placeholder: "John Doe" %>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <%= f.label :expiration_date, "Expiration Date (MM/YY)" %>
+          <%= f.text_field :expiration_date, placeholder: "04/30" %>
+        </div>
+        <div class="form-group">
+          <%= f.label :ccv, "CCV" %>
+          <%= f.text_field :ccv, maxlength: 4, placeholder: "123" %>
+        </div>
+      </div>
+
+      <%= f.submit "Pay", class: "submit-btn" %>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  payment-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  font-family: 'Arial', sans-serif;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-preview {
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.card-number {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.card-holder, .card-expiry {
+  opacity: 0.8;
+}
+
+.payment-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.payment-form .form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.payment-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.8rem;
+  background: #4e54c8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #3e42a8;
+}
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cardNumberInput = document.querySelector(".input-card-number");
+    const cardHolderInput = document.querySelector("input[name='payment[card_holder]']");
+    const expirationInput = document.querySelector("input[name='payment[expiration_date]']");
+
+    const cardNumberDisplay = document.querySelector(".card-number");
+    const cardHolderDisplay = document.querySelector(".card-holder");
+    const cardExpiryDisplay = document.querySelector(".card-expiry");
+
+    cardNumberInput.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/\D/g, "").substring(0,16);
+      val = val.replace(/(.{4})/g, "$1 ").trim();
+      cardNumberDisplay.textContent = val || "#### #### #### ####";
+    });
+
+    cardHolderInput.addEventListener("input", (e) => {
+      cardHolderDisplay.textContent = e.target.value || "Card Holder";
+    });
+
+    expirationInput.addEventListener("input", (e) => {
+      let val = e.target.value.replace(/[^\d\/]/g, "").substring(0, 5);
+      if (val.length === 2 && !val.includes("/")) {
+        val = val + "/";
+      }
+      cardExpiryDisplay.textContent = val || "MM/YY";
+      e.target.value = val;
+    });
+  });
+</script>

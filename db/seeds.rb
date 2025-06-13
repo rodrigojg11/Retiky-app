@@ -7,6 +7,10 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Order.destroy_all
+Ticket.destroy_all
+User.destroy_all
+User.create!(email:"aeromexico@gmail.com", password:"123456", role:"company")
 AIRPORTS = {
   "MEX" => "Ciudad de México (MEX)",
   "GDL" => "Guadalajara (GDL)",
@@ -29,7 +33,7 @@ AIRPORTS = {
         to: "#{tocode} - #{toname}",
         price: rand(100..1500),
         date: Date.today+rand(1..30).days,
-        user: User.where(role: "company", active: true).first,
+        user: User.where(role: "company").first,
         )
     end
   end
