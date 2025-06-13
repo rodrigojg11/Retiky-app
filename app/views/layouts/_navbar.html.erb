@@ -10,7 +10,7 @@
       <ul class="navbar-nav">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <span class="nav-link">Welcome, <%= current_user.first_name %></span>
+            <span class="nav-link">Welcome, <%= current_user.email %></span>
           </li>
           <li class="nav-item dropdown d-flex align-items-center">
               <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">

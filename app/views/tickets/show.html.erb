@@ -96,7 +96,7 @@
       Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.precio_final) %>
     <% end %>
   <% else %>
-    <%= link_to purchase_confirmation_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
+    <%= link_to checkout_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
       <i class="fas fa-ticket-alt me-2"></i>
       Comprar por $<%= number_with_delimiter(@ticket.price) %>
     <% end %>

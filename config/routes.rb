@@ -9,16 +9,15 @@ Rails.application.routes.draw do
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   resources :tickets do
-    resources :orders, only: [:create, :destroy]
     member do
       patch 'create_lightning_offer', to: 'tickets#create_lightning_offer'
       patch 'stop_lightning_offer', to: 'tickets#stop_lightning_offer'
       get :purchase_confirmation, to: 'tickets#purchase_confirmation'
+      get :checkout, to: 'tickets#checkout'
     end
+
   end
-
-
-  resources :orders, only: [:index, :show, :destroy]
+  resources :orders
 
   resources :users, only: [:show] do
     member do
