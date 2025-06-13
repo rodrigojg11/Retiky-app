@@ -29,7 +29,7 @@ AIRPORTS = {
         to: "#{tocode} - #{toname}",
         price: rand(100..1500),
         date: Date.today+rand(1..30).days,
-        user: User.where(role: "company", active: true).first,
+        user: User.where(role: "company").first,
         )
     end
   end
