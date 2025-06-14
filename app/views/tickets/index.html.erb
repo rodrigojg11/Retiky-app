@@ -5,12 +5,12 @@
   <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
     <h1 class="h2 mb-0">
       <i class="fas fa-ticket-alt me-2 text-primary"></i>
-      Todos los Tickets
+      Tickets
     </h1>
     <% if user_signed_in? && current_user.role == "company" %>
     <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
       <i class="fas fa-plus me-2"></i>
-      Crear Nuevo Ticket
+      Create a new ticket
     <% end %>
     <% end %>
   </div>
@@ -28,14 +28,14 @@
               <div class="row align-items-center">
                 <div class="col-4">
                   <div class="fw-bold fs-5"><%= ticket.from %></div>
-                  <small class="opacity-75">Origen</small>
+                  <small class="opacity-75">From</small>
                 </div>
                 <div class="col-4">
                   <i class="fas fa-plane fs-3"></i>
                 </div>
                 <div class="col-4">
                   <div class="fw-bold fs-5"><%= ticket.to %></div>
-                  <small class="opacity-75">Destino</small>
+                  <small class="opacity-75">To</small>
                 </div>
               </div>
             </div>
@@ -72,7 +72,7 @@
                   <div class="display-6 fw-bold text-dark">
                     $<%= number_with_delimiter(ticket.price) %>
                   </div>
-                  <small class="text-muted">Precio del ticket</small>
+                  <small class="text-muted">Ticket price</small>
                 <% end %>
               </div>
 
@@ -87,20 +87,7 @@
               <div class="d-flex gap-2 justify-content-center">
                 <%= link_to ticket_path(ticket), class: "btn btn-outline-primary btn-sm flex-fill" do %>
                   <i class="fas fa-eye me-1"></i>
-                  Ver
-                <% end %>
-                  <% if user_signed_in? && current_user.role == "company" %>
-                <%= link_to edit_ticket_path(ticket), class: "btn btn-outline-secondary btn-sm" do %>
-                  <i class="fas fa-edit"></i>
-                <% end %>
-
-                <%= link_to ticket_path(ticket), method: :delete,
-                            data: {
-                              confirm: "¿Estás seguro de eliminar este ticket?"
-                            },
-                            class: "btn btn-outline-danger btn-sm" do %>
-                  <i class="fas fa-trash"></i>
-                <% end %>
+                  More details
                 <% end %>
               </div>
             </div>
@@ -116,12 +103,12 @@
           <i class="fas fa-plane-departure display-1 text-muted"></i>
         </div>
 
-        <h2 class="h3 text-muted mb-3">No hay tickets disponibles</h2>
-        <p class="text-muted mb-4">¡Sé el primero en crear un ticket de vuelo!</p>
+        <h2 class="h3 text-muted mb-3">There are no tickets available</h2>
+        <p class="text-muted mb-4">Be the first to create a flight ticket!</p>
         <% if user_signed_in? && current_user.role == "company" %>
         <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
           <i class="fas fa-plus me-2"></i>
-          Crear Primer Ticket
+          Create First Ticket
           <% end %>
         <% end %>
       </div>

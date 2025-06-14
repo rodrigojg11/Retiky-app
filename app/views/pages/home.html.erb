@@ -1,16 +1,16 @@
 <% airports = [
   ["Select...", ""],
-  ["Ciudad de México (MEX)", "MEX"],
+  ["Mexico City (MEX)", "MEX"],
   ["Guadalajara (GDL)", "GDL"],
-  ["Cancún (CUN)", "CUN"],
-  ["Nueva York - JFK (JFK)", "JFK"],
-  ["Los Ángeles (LAX)", "LAX"],
+  ["Cancun (CUN)", "CUN"],
+  ["New York - JFK (JFK)", "JFK"],
+  ["Los Angeles (LAX)", "LAX"],
   ["Miami (MIA)", "MIA"],
   ["Toronto (YYZ)", "YYZ"],
   ["Madrid (MAD)", "MAD"],
-  ["París - Charles de Gaulle (CDG)", "CDG"],
-  ["Londres - Heathrow (LHR)", "LHR"],
-  ["Tokio - Narita (NRT)", "NRT"]
+  ["Paris - Charles de Gaulle (CDG)", "CDG"],
+  ["London - Heathrow (LHR)", "LHR"],
+  ["Tokyo - Narita (NRT)", "NRT"]
 ] %>
 
 <section class="bg-dark text-white py-4">
@@ -136,13 +136,13 @@
   <footer class="bg-dark text-white pt-5 pb-3 mt-5">
   <div class="container">
 
-    <!-- Botones superiores -->
+    <!-- Top Buttons -->
     <div class="mb-4">
       <button class="btn btn-secondary w-100 mb-2 rounded-pill text-start">
-        📱 Descarga nuestra app
+        📱 Download our app
       </button>
       <button class="btn btn-secondary w-100 rounded-pill text-start">
-        🇲🇽 México · Español (MX) · $ MXN
+        🇲🇽 Mexico · Spanish (MX) · $ MXN
       </button>
     </div>
 
@@ -150,19 +150,19 @@
     <div class="row">
       <div class="col-md-3 mb-3">
         <ul class="list-unstyled">
-          <li><strong>Ayuda</strong></li>
-          <li><a href="#" class="text-white text-decoration-none">Configuración de privacidad</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Iniciar sesión</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Política de cookies</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Política de privacidad</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Términos de servicio</a></li>
-          <li><a href="#" class="text-white text-decoration-none">Información de la empresa</a></li>
+          <li><strong>Help</strong></li>
+          <li><a href="#" class="text-white text-decoration-none">Privacy settings</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Log in</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Cookie policy</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Privacy policy</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Terms of service</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Company information</a></li>
         </ul>
       </div>
 
       <div class="col-md-9 mb-3">
         <div class="accordion accordion-flush" id="footerAccordion">
-          <% ["Explorar", "Compañía", "Partners", "Viajes", "Sitios internacionales"].each_with_index do |section, i| %>
+          <% ["Explore", "Company", "Partners", "Travel", "International Sites"].each_with_index do |section, i| %>
             <div class="accordion-item bg-dark border-0">
               <h2 class="accordion-header" id="flush-heading-<%= i %>">
                 <button class="accordion-button collapsed bg-dark text-white px-0" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-<%= i %>" aria-expanded="false" aria-controls="flush-collapse-<%= i %>">
@@ -172,9 +172,9 @@
               <div id="flush-collapse-<%= i %>" class="accordion-collapse collapse" data-bs-parent="#footerAccordion">
                 <div class="accordion-body px-0 text-muted small">
                   <ul class="list-unstyled">
-                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 1</a></li>
-                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 2</a></li>
-                    <li><a href="#" class="text-white-50 text-decoration-none">Enlace 3</a></li>
+                    <li><a href="#" class="text-white-50 text-decoration-none">Link 1</a></li>
+                    <li><a href="#" class="text-white-50 text-decoration-none">Link 2</a></li>
+                    <li><a href="#" class="text-white-50 text-decoration-none">Link 3</a></li>
                   </ul>
                 </div>
               </div>
@@ -184,10 +184,10 @@
       </div>
     </div>
 
-    <!-- Línea final -->
+    <!-- Final Line -->
     <div class="text-muted small text-center pt-4">
-      Compara y reserva vuelos baratos de donde sea a cualquier lugar<br>
-      © TuApp 2024 – <%= Time.now.year %>
+      Compare and book cheap flights from anywhere to everywhere<br>
+      © YourApp 2024 – <%= Time.now.year %>
     </div>
   </div>
 </footer>
