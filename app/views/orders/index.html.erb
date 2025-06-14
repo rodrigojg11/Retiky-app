@@ -1,24 +1,46 @@
+<% if flash[:notice] %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
 <h1>My Orders</h1>
 <table class="table">
   <thead>
     <tr>
       <th scope="col">From</th>
       <th scope="col">To</th>
+      <th scope="col">Date</th>
       <th scope="col">Original Price</th>
       <th scope="col">Discount price</th>
       <th scope="col">Discount</th>
     </tr>
   </thead>
-  <tbody>
-<% @orders.each do |order| %>
-<% ticket = Ticket.find order.ticket_id %>
-    <tr>
-      <th scope="row"><%= ticket.from %></th>
-      <td><%= ticket.to %></td>
-      <td>$<%= ticket.price %></td>
-      <td>$<%= ticket.discount_price %></td>
-      <td><%= ticket.discount %>%</td>
-    </tr>
-<% end %>
+<tbody>
+    <% @orders.each do |order| %>
+      <% ticket = Ticket.find order.ticket_id %>
+      <tr>
+        <th scope="row"><%= ticket.from %></th>
+        <td><%= ticket.to %></td>
+        <td><%= ticket.date %></td>
+        <td>$<%= ticket.price %></td>
+        <td>
+          <% if ticket.discount_price && ticket.discount_price != ticket.price %>
+            $<%= ticket.discount_price %>
+          <% end %>
+        </td>
+        <td>
+          <% if ticket.discount && ticket.discount > 0 %>
+            <%= ticket.discount %>%
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

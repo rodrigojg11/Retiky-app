@@ -5,20 +5,20 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <%= link_to tickets_path, class: "btn btn-outline-secondary" do %>
       <i class="fas fa-arrow-left me-2"></i>
-      Volver a la lista
+      Back to the list
     <% end %>
 
     <% if user_signed_in? && current_user.role == "company" %>
       <div class="d-flex gap-2">
         <%= link_to edit_ticket_path(@ticket), class: "btn btn-outline-primary" do %>
           <i class="fas fa-edit me-2"></i>
-          Editar
+          Edit
         <% end %>
         <%= button_to ticket_path(@ticket), method: :delete,
                     data: { confirm: "¿Estás seguro?" },
                     class: "btn btn-outline-danger" do %>
           <i class="fas fa-trash me-2"></i>
-          Eliminar
+          Delete
         <% end %>
       </div>
     <% end %>
@@ -32,14 +32,14 @@
       <div class="row text-center">
         <div class="col-4">
           <div class="display-6 fw-bold"><%= @ticket.from %></div>
-          <small>Origen</small>
+          <small>From</small>
         </div>
         <div class="col-4">
           <i class="fas fa-plane fs-1"></i>
         </div>
         <div class="col-4">
           <div class="display-6 fw-bold"><%= @ticket.to %></div>
-          <small>Destino</small>
+          <small>To</small>
         </div>
       </div>
     </div>
@@ -50,14 +50,14 @@
         <div class="col-md-6 text-center">
           <i class="fas fa-calendar-alt text-primary fs-4 mb-2"></i>
           <div>
-            <small class="text-muted d-block">Fecha</small>
+            <small class="text-muted d-block">Date</small>
             <span class="fs-5 fw-bold"><%= @ticket.date %></span>
           </div>
         </div>
         <div class="col-md-6 text-center">
           <i class="fas fa-user text-primary fs-4 mb-2"></i>
           <div>
-            <small class="text-muted d-block">Vendedor</small>
+            <small class="text-muted d-block">Seller</small>
             <span class="fs-5 fw-bold"><%= @ticket.user&.email || "N/A" %></span>
           </div>
         </div>
@@ -68,7 +68,7 @@
         <% if @ticket.has_active_offer? %>
           <span class="badge bg-warning text-dark fs-6 mb-3">
             <i class="fas fa-bolt me-2"></i>
-            OFERTA -<%= @ticket.discount %>% OFF
+            OFERT -<%= @ticket.discount %>% OFF
           </span>
           <div class="text-decoration-line-through text-muted mb-2">
             $<%= number_with_delimiter(@ticket.price) %>
@@ -84,22 +84,24 @@
           <div class="display-4 fw-bold mb-2">
             $<%= number_with_delimiter(@ticket.price) %>
           </div>
-          <p class="text-muted">Precio del ticket</p>
+          <p class="text-muted">Ticket price</p>
         <% end %>
       </div>
 
       <!-- Botón compra -->
-    <div class="text-center">
+<div class="text-center">
+  <% if user_signed_in? && current_user.role == "customer" %>
   <% if @ticket.has_active_offer? %>
     <%= link_to checkout_ticket_path(@ticket), class: "btn btn-warning btn-lg px-5 py-3 fw-bold" do %>
       <i class="fas fa-bolt me-2"></i>
-      Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.discount_price) %>
+      Buy right now - $<%= number_with_delimiter(@ticket.discount_price) %>
     <% end %>
   <% else %>
     <%= link_to checkout_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>
       <i class="fas fa-ticket-alt me-2"></i>
-      Comprar por $<%= number_with_delimiter(@ticket.price) %>
+      Buy for $<%= number_with_delimiter(@ticket.price) %>
     <% end %>
+  <% end %>
   <% end %>
 </div>
 
@@ -109,7 +111,7 @@
       <div class="card-header bg-light">
         <h5 class="card-title mb-0">
           <i class="fas fa-cog me-2"></i>
-          Panel de Gestión
+          Management Panel
         </h5>
       </div>
 
@@ -119,14 +121,14 @@
           <div class="alert alert-info">
             <h6 class="alert-heading">
               <i class="fas fa-bolt me-2"></i>
-              Oferta Relámpago Activa
+              Lightning Offer Active
             </h6>
 
             <div class="row g-3 mt-2">
               <div class="col-md-6">
                 <div class="card bg-light">
                   <div class="card-body text-center py-2">
-                    <small class="text-muted d-block">Descuento</small>
+                    <small class="text-muted d-block">Discount</small>
                     <span class="fw-bold fs-5"><%= @ticket.discount %>%</span>
                   </div>
                 </div>
@@ -134,7 +136,7 @@
               <div class="col-md-6">
                 <div class="card bg-light">
                   <div class="card-body text-center py-2">
-                    <small class="text-muted d-block">Tiempo restante</small>
+                    <small class="text-muted d-block">Remaining time</small>
                     <span class="fw-bold fs-6"><%= @ticket.tiempo_restante_oferta %></span>
                   </div>
                 </div>
@@ -147,7 +149,7 @@
                           data: { confirm: "¿Detener la oferta relámpago?" },
                           class: "btn btn-outline-danger" do %>
                 <i class="fas fa-stop me-2"></i>
-                Detener Oferta
+                Stop Offer
               <% end %>
             </div>
           </div>
@@ -155,13 +157,13 @@
           <!-- Crear nueva oferta -->
           <h6 class="mb-3">
             <i class="fas fa-bolt me-2"></i>
-            Crear Oferta Relámpago
+            Create lightning offer
           </h6>
 
           <%= simple_form_for @ticket, url: create_lightning_offer_ticket_path(@ticket), method: :patch, local: true, html: { class: "row g-3" } do |f| %>
             <div class="col-md-6">
               <%= f.input :duracion,
-                  label: '<i class="fas fa-clock me-1"></i> Duración (horas)'.html_safe,
+                  label: '<i class="fas fa-clock me-1"></i> Time (hours)'.html_safe,
                   input_html: {
                     step: 0.5,
                     min: 0.5,
@@ -172,7 +174,7 @@
 
             <div class="col-md-6">
               <%= f.input :discount,
-                  label: '<i class="fas fa-percentage me-1"></i> Descuento (%)'.html_safe,
+                  label: '<i class="fas fa-percentage me-1"></i> Discount (%)'.html_safe,
                   input_html: {
                     min: 1,
                     max: 50,
@@ -181,7 +183,7 @@
             </div>
 
             <div class="col-12">
-                <%= f.submit "Crear Promoción Ahora", class: "btn btn-primary", id: "crear-oferta-btn" %>
+                <%= f.submit "Create Promotion Now", class: "btn btn-primary", id: "crear-oferta-btn" %>
             </div>
           <% end %>
         <% end %>

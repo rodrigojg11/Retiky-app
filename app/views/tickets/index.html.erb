@@ -5,7 +5,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
     <h1 class="h2 mb-0">
       <i class="fas fa-ticket-alt me-2 text-primary"></i>
-      Todos los Tickets
+      Tickets
     </h1>
     <div>
       <%= form_with url: tickets_path, method: :get do |form| %>
@@ -15,7 +15,7 @@
     <% if user_signed_in? && current_user.role == "company" %>
     <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
       <i class="fas fa-plus me-2"></i>
-      Crear Nuevo Ticket
+      Create a new ticket
     <% end %>
     <% end %>
   </div>
@@ -29,20 +29,18 @@
           <div class="card h-100 shadow-sm border-0">
 
             <!-- Header con ruta -->
-             <div class="card-header text-white py-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 110px;">
-              <div class="d-flex align-items-center justify-content-center h-100">
-                <div class="row text-center w-100">
-                  <div class="col-5">
-                    <div class="fw-bold fs-5" style="line-height: 1.2;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"><%= ticket.from %></div>
-                    <small style="font-size: 0.80rem;">Origen</small>
-                  </div>
-                   <div class="col-1 col-md-1" style="min-width: 30px; max-width: 50px;">
-                    <span class="fs-2">→</span>
-                  </div>
-                  <div class="col-5">
-                    <div class="fw-bold fs-5" style="line-height: 1.2;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;"><%= ticket.to %></div>
-                    <small style="font-size: 0.80rem;">Destino</small>
-                  </div>
+            <div class="card-header bg-primary text-white text-center py-3">
+              <div class="row align-items-center">
+                <div class="col-4">
+                  <div class="fw-bold fs-5"><%= ticket.from %></div>
+                  <small class="opacity-75">From</small>
+                </div>
+                <div class="col-4">
+                  <i class="fas fa-plane fs-3"></i>
+                </div>
+                <div class="col-4">
+                  <div class="fw-bold fs-5"><%= ticket.to %></div>
+                  <small class="opacity-75">To</small>
                 </div>
               </div>
             </div>
@@ -87,7 +85,7 @@
                   <div class="display-4 fw-bold text-primary mb-2">
                     $<%= number_with_delimiter(ticket.price) %>
                   </div>
-                  <small class="text-muted fw-medium">Precio del ticket</small>
+                  <small class="text-muted">Ticket price</small>
                 <% end %>
               </div>
 
@@ -102,11 +100,13 @@
               </div>
 
 
+
+              <!-- Acciones -->
+              <div class="d-flex gap-2 justify-content-center">
+                <%= link_to ticket_path(ticket), class: "btn btn-outline-primary btn-sm flex-fill" do %>
+                  <i class="fas fa-eye me-1"></i>
+                  More details
                            <!-- Acciones mejoradas -->
-              <div class="d-flex gap-2 mt-auto">
-                <%= link_to ticket_path(ticket), class: "btn btn-primary flex-fill shadow-sm btn-hover" do %>
-                  <i class="fas fa-eye me-2"></i>
-                  Ver Detalles
                 <% end %>
 
                 <% if user_signed_in? && current_user.role == "company" %>
@@ -152,12 +152,12 @@
 
           <h2 class="h3 text-dark mb-3">No hay tickets disponibles</h2>
           <p class="text-muted mb-4 lead">¡Sé el primero en crear un ticket de vuelo y comienza a vender!</p>
-
-          <% if user_signed_in? && current_user.role == "company" %>
-            <%= link_to new_ticket_path, class: "btn btn-primary btn-lg shadow-sm px-4 py-3" do %>
-              <i class="fas fa-plus me-2"></i>
-              Crear Primer Ticket
-            <% end %>
+        <h2 class="h3 text-muted mb-3">There are no tickets available</h2>
+        <p class="text-muted mb-4">Be the first to create a flight ticket!</p>
+        <% if user_signed_in? && current_user.role == "company" %>
+        <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
+          <i class="fas fa-plus me-2"></i>
+          Create First Ticket
           <% end %>
         </div>
       </div>

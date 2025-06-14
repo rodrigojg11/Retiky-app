@@ -18,11 +18,11 @@
   <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
     <h1 class="h2 mb-0">
       <i class="fas fa-plane me-2 text-primary"></i>
-      Crear Nuevo Ticket
+      Create a new ticket
     </h1>
     <%= link_to tickets_path, class: "btn btn-outline-secondary" do %>
       <i class="fas fa-arrow-left me-2"></i>
-      Volver a la lista
+      Back to the list
     <% end %>
   </div>
 
@@ -37,7 +37,7 @@
           <div class="card-header bg-light">
             <h5 class="card-title mb-0">
               <i class="fas fa-ticket-alt me-2"></i>
-              Información del Ticket
+              Ticket information
             </h5>
           </div>
 
@@ -58,14 +58,42 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
               </div>
             <% end %>
-
+            <fieldset class="mb-4">
             <!-- Ruta de vuelo -->
             <fieldset class="mb-4" data-controller="ticket">
               <legend class="h6 text-primary border-bottom pb-2 mb-3">
                 <i class="fas fa-route me-2"></i>
-                Ruta de Vuelo
+                Flight route
               </legend>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <%= form.label :from, class: "form-label fw-semibold" do %>
+                    <i class="fas fa-plane-departure me-1"></i>
+                    From
+                  <% end %>
+                  <%= form.text_field :from,
+                      class: "form-control form-control-lg",
+                      placeholder: "Ciudad de México",
+                      required: true %>
+                  <div class="invalid-feedback">
+                    Por favor ingresa la ciudad de origen
+                  </div>
+                </div>
 
+                <div class="col-md-6 mb-3">
+                  <%= form.label :to, class: "form-label fw-semibold" do %>
+                    <i class="fas fa-plane-arrival me-1"></i>
+                    To
+                  <% end %>
+                  <%= form.text_field :to,
+                      class: "form-control form-control-lg",
+                      placeholder: "Cancún",
+                      required: true %>
+                  <div class="invalid-feedback">
+                    Por favor ingresa la ciudad de destino
+                  </div>
+                </div>
+              </div>
             <!-- ORIGEN -->
             <div class="col-md-6 mb-3">
               <%= form.label :from, class: "form-label fw-semibold" do %>
@@ -96,22 +124,20 @@
                   ticket_target: "to"  # 👈 Este es el target 'to' pero NO lleva controller
                 } %>
             </div>
-
-
             </fieldset>
 
             <!-- Detalles del ticket -->
             <fieldset class="mb-4">
               <legend class="h6 text-primary border-bottom pb-2 mb-3">
                 <i class="fas fa-info-circle me-2"></i>
-                Detalles del Ticket
+                Ticket details
               </legend>
 
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <%= form.label :price, class: "form-label fw-semibold" do %>
                     <i class="fas fa-dollar-sign me-1"></i>
-                    Precio
+                    Price
                   <% end %>
                   <div class="input-group input-group-lg">
                     <span class="input-group-text">$</span>
@@ -131,7 +157,7 @@
                 <div class="col-md-6 mb-3">
                   <%= form.label :date, class: "form-label fw-semibold" do %>
                     <i class="fas fa-calendar-alt me-1"></i>
-                    Fecha del Vuelo
+                    Flight date
                   <% end %>
                   <%= form.date_field :date,
                       min: Date.current,
@@ -149,14 +175,14 @@
           <!-- Footer con acciones -->
           <div class="card-footer bg-light">
             <div class="d-flex gap-3 justify-content-end">
-              <%= link_to tickets_path, class: "btn btn-outline-secondary" do %>
+              <%= link_to tickets_path, class: "btn btn-danger btn-sm" do %>
                 <i class="fas fa-times me-2"></i>
-                Cancelar
+                Cancel
               <% end %>
 
               <%= form.submit class: "btn btn-primary btn-lg" do %>
                 <i class="fas fa-save me-2"></i>
-                Crear Ticket
+                Create a ticket
               <% end %>
             </div>
           </div>
