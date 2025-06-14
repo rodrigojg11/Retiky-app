@@ -74,7 +74,7 @@
             $<%= number_with_delimiter(@ticket.price) %>
           </div>
           <div class="display-5 fw-bold text-success mb-2">
-            $<%= number_with_delimiter(@ticket.precio_final) %>
+            $<%= number_with_delimiter(@ticket.discount_price) %>
           </div>
           <div class="alert alert-warning">
             <i class="fas fa-clock me-2"></i>
@@ -91,9 +91,9 @@
       <!-- Botón compra -->
     <div class="text-center">
   <% if @ticket.has_active_offer? %>
-    <%= link_to purchase_confirmation_ticket_path(@ticket), class: "btn btn-warning btn-lg px-5 py-3 fw-bold" do %>
+    <%= link_to checkout_ticket_path(@ticket), class: "btn btn-warning btn-lg px-5 py-3 fw-bold" do %>
       <i class="fas fa-bolt me-2"></i>
-      Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.precio_final) %>
+      Comprar ahoritita mismo cawn - $<%= number_with_delimiter(@ticket.discount_price) %>
     <% end %>
   <% else %>
     <%= link_to checkout_ticket_path(@ticket), class: "btn btn-primary btn-lg px-5 py-3 fw-bold" do %>

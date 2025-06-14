@@ -36,7 +36,7 @@ class Ticket < ApplicationRecord
     discount.present? && discount > 0 && lightning_offer_active?
   end
 
-  def precio_final
+  def discount_price
     return price unless has_active_offer?
     price - (price * discount / 100)
   end
