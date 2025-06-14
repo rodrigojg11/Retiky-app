@@ -23,6 +23,13 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><%= link_to "Edit account", edit_user_registration_path, class: "dropdown-item" %></li>
+              <% if current_user.role == "customer" %>
+              <li><%= link_to "Tickets", tickets_path, class: "dropdown-item" %></li>
+              <li><%= link_to "My Orders", orders_path, class: "dropdown-item" %></li>
+              <% else %>
+              <li><%= link_to "My tickets", tickets_path, class: "dropdown-item" %></li>
+              <% end %>
+
               <% if current_user.role == "company" %>
                 <li><%= link_to "Create a ticket", new_ticket_path, class: "dropdown-item" %></li>
               <% end %>

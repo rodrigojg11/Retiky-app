@@ -4,9 +4,9 @@
     <tr>
       <th scope="col">From</th>
       <th scope="col">To</th>
-      <th scope="col">Price</th>
+      <th scope="col">Original Price</th>
+      <th scope="col">Discount price</th>
       <th scope="col">Discount</th>
-      <th scope="col">Lightning</th>
     </tr>
   </thead>
   <tbody>
@@ -16,8 +16,8 @@
       <th scope="row"><%= ticket.from %></th>
       <td><%= ticket.to %></td>
       <td>$<%= ticket.price %></td>
-      <td><%= ticket.discount %></td>
-      <td><%= ticket.lightning %></td>
+      <td>$<%= ticket.discount_price %></td>
+      <td><%= ticket.discount %>%</td>
     </tr>
 <% end %>
   </tbody>
