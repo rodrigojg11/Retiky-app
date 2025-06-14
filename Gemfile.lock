@@ -355,6 +355,7 @@ DEPENDENCIES
   cloudinary
   debug
   devise
+  dotenv
   dotenv-rails
   font-awesome-sass (~> 6.1)
   importmap-rails
