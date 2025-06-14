@@ -7,6 +7,11 @@
       <i class="fas fa-ticket-alt me-2 text-primary"></i>
       Todos los Tickets
     </h1>
+    <div>
+      <%= form_with url: tickets_path, method: :get do |form| %>
+        <%= form.select :order_by, options_for_select([["Newest", "newest"], ["Expensive", "expensive"], ["Chepeast", "cheapest"], ["On Sale", "discount"]], params[:order_by]), {}, { onChange: 'this.form.requestSubmit()'} %>
+      <% end %>
+    </div>
     <% if user_signed_in? && current_user.role == "company" %>
     <%= link_to new_ticket_path, class: "btn btn-primary btn-lg" do %>
       <i class="fas fa-plus me-2"></i>

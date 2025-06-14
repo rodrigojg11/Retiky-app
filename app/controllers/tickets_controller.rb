@@ -9,6 +9,19 @@ class TicketsController < ApplicationController
     else
       @tickets = Ticket.order(date: :asc)
     end
+    if params[:order_by].present?
+      order_by = {
+        newest: "date ASC",
+        expensive: "final_price DESC",
+        cheapest: "final_price ASC",
+        discount: "discount DESC"
+      }.fetch(params[:order_by].to_sym)
+      if params[:order_by] == "discount"
+        @tickets = @tickets.where("discount > 0").order(order_by)
+      else
+        @tickets = Ticket.order(order_by)
+      end
+    end
   end
 
   def checkout
@@ -76,7 +89,8 @@ class TicketsController < ApplicationController
     @ticket.update!(
       discount: descuento,
       lightning: duracion,
-      lightning_start_time: Time.current
+      lightning_start_time: Time.current,
+      final_price: price * (100-discount)/100
     )
     flash[:show_confirm_popup] = true
     redirect_to @ticket, notice: "¡Oferta relámpago creada exitosamente!"
