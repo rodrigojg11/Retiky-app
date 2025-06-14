@@ -1,4 +1,17 @@
 <!-- app/views/tickets/new.html.erb -->
+<% airports = [
+  ["Ciudad de México (MEX)", "MEX"],
+  ["Guadalajara (GDL)", "GDL"],
+  ["Cancún (CUN)", "CUN"],
+  ["Nueva York - JFK (JFK)", "JFK"],
+  ["Los Ángeles (LAX)", "LAX"],
+  ["Miami (MIA)", "MIA"],
+  ["Toronto (YYZ)", "YYZ"],
+  ["Madrid (MAD)", "MAD"],
+  ["París - Charles de Gaulle (CDG)", "CDG"],
+  ["Londres - Heathrow (LHR)", "LHR"],
+  ["Tokio - Narita (NRT)", "NRT"]
+] %>
 
 <div class="container py-4">
   <!-- Header -->
@@ -45,13 +58,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
               </div>
             <% end %>
-
             <fieldset class="mb-4">
+            <!-- Ruta de vuelo -->
+            <fieldset class="mb-4" data-controller="ticket">
               <legend class="h6 text-primary border-bottom pb-2 mb-3">
                 <i class="fas fa-route me-2"></i>
                 Flight route
               </legend>
-
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <%= form.label :from, class: "form-label fw-semibold" do %>
@@ -81,6 +94,36 @@
                   </div>
                 </div>
               </div>
+            <!-- ORIGEN -->
+            <div class="col-md-6 mb-3">
+              <%= form.label :from, class: "form-label fw-semibold" do %>
+                <i class="fas fa-plane-departure me-1"></i> From
+              <% end %>
+              <%= select_tag 'ticket[from]',
+                options_for_select(Ticket::AIRPORTS),
+                include_blank: "Selecciona...",
+                class: "form-select form-select-lg",
+                id: "ticket_from",
+                data: {
+                  ticket_target: "from",        # 👈 Este es el target 'from'
+                  action: "input->ticket#sync"  # 👈 Ejecuta el método cuando cambie
+                } %>
+            </div>
+
+            <!-- DESTINO -->
+            <div class="col-md-6 mb-3">
+              <%= form.label :to, class: "form-label fw-semibold" do %>
+                <i class="fas fa-plane-arrival me-1"></i> To
+              <% end %>
+              <%= select_tag 'ticket[to]',
+                options_for_select(Ticket::AIRPORTS),
+                include_blank: "Selecciona...",
+                class: "form-select form-select-lg",
+                id: "ticket_to",
+                data: {
+                  ticket_target: "to"  # 👈 Este es el target 'to' pero NO lleva controller
+                } %>
+            </div>
             </fieldset>
 
             <!-- Detalles del ticket -->

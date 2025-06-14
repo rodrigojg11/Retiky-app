@@ -25,6 +25,8 @@ class Ticket < ApplicationRecord
   validate :from_different_from_to
   validates :discount, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }, allow_nil: true
 
+  after_create :set_final_price
+
   include PgSearch::Model
   pg_search_scope :search_tickets,
     against: [ :from, :to ],
@@ -38,7 +40,9 @@ class Ticket < ApplicationRecord
 
   def discount_price
     return price unless has_active_offer?
-    price - (price * discount / 100)
+    last_price = price - (price * discount / 100)
+    update(final_price: last_price)
+    last_price
   end
 
   def ruta_completa
@@ -135,5 +139,9 @@ class Ticket < ApplicationRecord
     return 50 if tiempo_restante <= 2      # Moderado
     return 25 if tiempo_restante <= 4      # Bajo
     10 # Muy bajo: más de 4 horas
+  end
+
+  def set_final_price
+    update(final_price: price)
   end
 end
